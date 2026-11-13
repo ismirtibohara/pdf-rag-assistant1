@@ -1,0 +1,30 @@
+{
+  "document": "ISDNn.pdf",
+  "k": 3,
+  "questions": [
+    {
+      "question": "What does ISDN stand for?",
+      "relevant_pages": [1]
+    },
+    {
+      "question": "How many B and D channels are used by the PRI described here?",
+      "relevant_pages": [2]
+    },
+    {
+      "question": "What is the difference between bearer services and teleservices?",
+      "relevant_pages": [2]
+    },
+    {
+      "question": "What does DLCI identify in Frame Relay?",
+      "relevant_pages": [7]
+    },
+    {
+      "question": "How does FECN report network congestion?",
+      "relevant_pages": [7]
+    },
+    {
+      "question": "Name two advantages of Frame Relay.",
+      "relevant_pages": [8]
+    }
+  ]
+}
