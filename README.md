@@ -5,7 +5,6 @@ A PDF semantic search app built with Python, Streamlit, pypdf, and ChromaDB.
 ## Live demo
 
 [Open PDF RAG Assistant](https://pdf-rag-assistant1-fsygsdfxayn3ifpgvyqggb.streamlit.app/)
-[View the GitHub repository](https://github.com/ismirtibohara/pdf-rag-assistant1)
 
 ## What it does
 
