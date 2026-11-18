@@ -1,0 +1,55 @@
+[
+  {
+    "question": "What are the three categories of ISDN services?",
+    "type": "answerable",
+    "expected_pages": [2],
+    "keywords": ["bearer", "tele", "supplementary"]
+  },
+  {
+    "question": "What is the speed of a BRI digital pipe and why?",
+    "type": "answerable",
+    "expected_pages": [1],
+    "keywords": ["192"]
+  },
+  {
+    "question": "What do FECN and BECN do in Frame Relay?",
+    "type": "answerable",
+    "expected_pages": [7],
+    "keywords": ["destination", "source"]
+  },
+  {
+    "question": "How large can the data field of a Token Bus frame be with 6-byte addresses?",
+    "type": "answerable",
+    "expected_pages": [4],
+    "keywords": ["8174"]
+  },
+  {
+    "question": "What are the disadvantages of Frame Relay?",
+    "type": "answerable",
+    "expected_pages": [8],
+    "keywords": ["error control", "delay", "reliable"]
+  },
+  {
+    "question": "What is the difference between PVC and SVC?",
+    "type": "answerable",
+    "expected_pages": [7, 8],
+    "keywords": ["permanent", "temporary"]
+  },
+  {
+    "question": "Who won the 2018 World Cup?",
+    "type": "unanswerable"
+  },
+  {
+    "question": "What is the difference between TCP and UDP?",
+    "type": "unanswerable"
+  },
+  {
+    "question": "What is the maximum size of an Ethernet frame?",
+    "type": "unanswerable"
+  },
+  {
+    "question": "What topics does this document cover?",
+    "type": "broad",
+    "keywords": ["ISDN", "Token Bus", "Token Ring", "Frame Relay"]
+  }
+]
