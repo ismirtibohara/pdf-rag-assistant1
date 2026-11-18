@@ -3,18 +3,15 @@ import hashlib
 import chromadb
 import streamlit as st
 
+from src.llm import generate_answer
 from src.pdf_rag import extract_chunks, index_chunks, retrieve
 
 
 st.set_page_config(page_title="PDF RAG Assistant", page_icon="📄")
 st.title("📄 PDF RAG Assistant")
 st.write(
-    "Search your PDF by meaning and inspect the passages and page numbers "
-    "behind each result."
-)
-st.info(
-    "This offline-friendly baseline retrieves evidence passages locally. "
-    "It does not generate paraphrased answers yet."
+    "Ask a question about your PDF. The answer is generated only from "
+    "passages found in the document, with page citations."
 )
 
 uploaded_file = st.file_uploader("Choose a PDF", type="pdf")
@@ -56,33 +53,49 @@ if uploaded_file is not None:
     top_k = st.slider("Number of passages to retrieve", 1, 5, 3)
 
     with st.form("search_form"):
-        question = st.text_input("What would you like to find in this PDF?")
-        submitted = st.form_submit_button("Search")
+        question = st.text_input("What would you like to know about this PDF?")
+        submitted = st.form_submit_button("Ask")
 
     if submitted:
         if not question.strip():
             st.warning("Enter a question to search the PDF.")
         else:
-            with st.spinner("Searching locally..."):
+            with st.spinner("Finding relevant passages..."):
                 results = retrieve(collection, question, top_k=top_k)
 
             if not results:
                 st.info("No matching passages were found.")
             else:
-                st.subheader("Relevant passages")
-                for rank, result in enumerate(results, start=1):
-                    st.markdown(
-                        f"**{rank}. Page {result['page']} · "
-                        f"Chunk {result['chunk']}**"
-                    )
-                    st.write(result["text"])
-                    st.caption(
-                        f"Vector distance: {result['distance']:.3f} "
-                        "(lower is closer)"
-                    )
-                    st.divider()
+                with st.spinner("Generating answer..."):
+                    answer = generate_answer(question, results)
 
-                st.caption(
-                    "Retrieval results are evidence, not a generated answer. "
-                    "Check the cited page in the original PDF."
-                )
+                if answer.found_in_document:
+                    st.subheader("Answer")
+                    st.write(answer.answer)
+
+                    if answer.sources:
+                        with st.expander("Sources", expanded=True):
+                            for source in answer.sources:
+                                st.markdown(f"**Page {source.page}**")
+                                st.caption(f"“{source.quote}”")
+
+                    st.caption(
+                        f"Model's confidence estimate: {answer.confidence:.0%}. "
+                        "This is a guess by the model, not a measured score. "
+                        "Check the cited pages in the original PDF."
+                    )
+                else:
+                    st.warning(answer.answer)
+
+                with st.expander("Retrieved passages (evidence sent to the model)"):
+                    for rank, result in enumerate(results, start=1):
+                        st.markdown(
+                            f"**{rank}. Page {result['page']} · "
+                            f"Chunk {result['chunk']}**"
+                        )
+                        st.write(result["text"])
+                        st.caption(
+                            f"Vector distance: {result['distance']:.3f} "
+                            "(lower is closer)"
+                        )
+                        st.divider()
