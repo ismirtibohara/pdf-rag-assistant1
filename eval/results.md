@@ -1,6 +1,7 @@
 # Test results: ISDNn.pdf
 
 Settings: top_k = 3 unless noted. Result = Correct / Partial / Wrong.
+Tested on the live Streamlit app (Gemini, structured output, prompt v1).
 
 ## Questions that are in the PDF
 
@@ -11,7 +12,7 @@ Settings: top_k = 3 unless noted. Result = Correct / Partial / Wrong.
 | What do FECN and BECN do in Frame Relay? | FECN tells the destination, BECN tells the source. Page 7 | | |
 | How large can the data field of a Token Bus frame be with 6-byte addresses? | 8174 bytes. Page 4 | | |
 | What are the disadvantages of Frame Relay? | No error control, delay in packet transfer, less reliable. Page 8 | Correct | Right answer, cited page 8, quote is on the page |
-| What is the difference between PVC and SVC? | PVC permanent, SVC temporary. Pages 7 and 8 | | |
+| What is the difference between PVC and SVC? | PVC permanent, SVC temporary. Pages 7 and 8 | Correct | Cited pages 7 and 8, quotes match. One quote has a stray space ("c onnections") from PDF text extraction |
 
 ## Questions that are NOT in the PDF (should refuse)
 
@@ -25,11 +26,12 @@ Settings: top_k = 3 unless noted. Result = Correct / Partial / Wrong.
 
 | Question | Expected | Result | Notes |
 |---|---|---|---|
-| Explain this document | Overview of all 4 topics | Partial | Broad question, only 3 chunks retrieved |
+| Explain this document | Overview of all 4 topics | Partial | Broad question, only 3 chunks retrieved, sources from unrelated pages |
 | What topics does this document cover? (top_k=5) | ISDN, Token Bus, Token Ring, Frame Relay | Partial | Missed ISDN, Token Bus, Token Ring. Confidence showed 100% |
 
 ## Observations
 
 - Broad questions fail because retrieval only returns the few chunks closest in meaning to the question.
-- The model's confidence number is not reliable. It showed 100% on an incomplete answer.
+- The model's confidence number is not reliable. It showed 100% on incomplete answers.
 - One quote joined two separate pieces of text with "...". A quote check is needed.
+- PDF text extraction sometimes adds stray spaces inside words, so quote checks must ignore spaces.
